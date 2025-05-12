@@ -12,9 +12,12 @@ html = f"""<!DOCTYPE html>
 <meta http-equiv="refresh" content="0; URL=http://{new_ip}:8096/">
 <link rel="canonical" href="http://{new_ip}:8096/">"""
 
-if old_ip == new_ip:
+if old_ip != new_ip:
     print(f"IP address has changed\n{old_ip} -> {new_ip}\nUpdating\n")
     subprocess.run(f"echo {new_ip} > ip.txt", shell=True)
     subprocess.run(f"echo '{html}' > index.html", shell=True)
+    subprocess.run("git add index.html ip.txt", shell=True)
+    subprocess.run('git commit -m "update ip"', shell=True)
+    subprocess.run("git push", shell=True)
 else:
     print("IP address has not changed")
